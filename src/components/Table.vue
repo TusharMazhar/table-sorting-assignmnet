@@ -3,18 +3,23 @@
     <v-app>
         <v-card width="50%" class="table">
             <v-data-table
+                id="exportable_table"
                 :headers="headers"
                 :items="sampleData"
                 :search="search"
                 hide-default-footer
                 disable-filtering
             ></v-data-table>
+            <button @click="exportExcel('xlsx')" class="btn">Export Excel</button>
         </v-card>
     </v-app>
+
 </div>
 </template>
 
 <script>
+
+import * as XLSX from 'xlsx/xlsx.mjs'
 
 export default ({
     name:'Table',
@@ -51,12 +56,28 @@ export default ({
       ],
     }
   },
+  methods:{
+       exportExcel(type, fn, dl) {
+              var elt = document.getElementById('exportable_table')
+              var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet Js" });
+              return dl
+                ? XLSX.write(wb, { bookType: type, bookSST: true, type: "base64" })
+                : XLSX.writeFile(
+                    wb,(fn || "Table.") + (type || "xlsx")
+                  );
+          }
+  }
   
 })
 </script>
 <style scoped>
  .table{
      margin: auto;
+ }
+ .btn{
+     background-color: blue;
+     color:white;
+     padding: 10px;
  }
 </style>
 
