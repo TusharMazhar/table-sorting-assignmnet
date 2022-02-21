@@ -11,6 +11,7 @@
             ></v-data-table>
             <button @click="exportExcel('xlsx')" class="btn">Export Excel</button>
             <button @click="pdfDownload()" class="btn">Pdf Download</button>
+            <button @click="pdfSave()" class="btn">Pdf Save</button>
         </v-card>
     </v-app>
 
@@ -93,6 +94,10 @@ export default ({
 
                 doc.save('table.pdf')
 
+          },
+
+          pdfSave(){
+             window.print()
           }
 
   }
