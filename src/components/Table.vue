@@ -6,11 +6,11 @@
                 id="exportable_table"
                 :headers="headers"
                 :items="sampleData"
-                :search="search"
                 hide-default-footer
                 disable-filtering
             ></v-data-table>
             <button @click="exportExcel('xlsx')" class="btn">Export Excel</button>
+            <button @click="pdfDownload()" class="btn">Pdf Download</button>
         </v-card>
     </v-app>
 
@@ -20,6 +20,7 @@
 <script>
 
 import * as XLSX from 'xlsx/xlsx.mjs'
+
 
 export default ({
     name:'Table',
@@ -65,7 +66,12 @@ export default ({
                 : XLSX.writeFile(
                     wb,(fn || "Table.") + (type || "xlsx")
                   );
+          },
+          pdfDownload(){
+              window.print();
+
           }
+
   }
   
 })
@@ -78,6 +84,7 @@ export default ({
      background-color: blue;
      color:white;
      padding: 10px;
+     margin:10px
  }
 </style>
 
