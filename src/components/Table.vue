@@ -20,12 +20,15 @@
 <script>
 
 import * as XLSX from 'xlsx/xlsx.mjs'
-
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
 
 export default ({
     name:'Table',
     data () {
     return {
+      head:[],
+      body:[],
       headers: [
         { text: 'Book ID',value: 'Book_ID',},
         { text: 'Book Name', value: 'Book_Name' },
@@ -68,7 +71,27 @@ export default ({
                   );
           },
           pdfDownload(){
-              window.print();
+              let dataArr = []
+              let arr = []
+              this.head = []
+              const doc = new jsPDF()
+              this.headers.forEach(head=>{
+                  arr.push(head.text)
+                }
+              )
+              this.head.push(arr)
+
+              this.body = Object.values(this.sampleData)
+              this.body.forEach(item=>{
+                  console.log(item)
+                  dataArr.push(Object.values(item))
+              })
+              doc.autoTable({
+                head: this.head,
+                body: dataArr,
+                })
+
+                doc.save('table.pdf')
 
           }
 
